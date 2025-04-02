@@ -1,0 +1,5 @@
+eng-to-ipa
+googletrans
+nltk
+openpyxl
+pandas
