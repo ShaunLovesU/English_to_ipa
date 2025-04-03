@@ -1,3 +1,7 @@
+This tool was originally created to help my aunt study English by generating English words, Chinese translations, and IPA transcriptions from a reading passage to support her IELTS preparation.
+
+Suggest using AI tool for extracting the english words from readings(PDF or a web page) and store them in JSON file.
+
 # Vocabulary Study Tool
 
 This project extracts English vocabulary from a JSON file, generates:
