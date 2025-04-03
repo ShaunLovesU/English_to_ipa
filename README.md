@@ -107,7 +107,6 @@ You can enter the language name. Supported options:
 
 - Tested on **Python 3.9**
 - Requires internet connection to use Google Translate and Datamuse API
-- You can easily change the translation language by modifying the `dest="zh-cn"` parameter
 - If `googletrans` fails, consider switching to an official API like Google Cloud Translate or DeepL
 
 ---
