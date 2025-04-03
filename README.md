@@ -51,23 +51,39 @@ pip install -r requirements.txt
 ### Command Format:
 
 ```bash
-python main.py [input_json] [output_excel]
+python main.py [input_json] [output_excel] [Language]
 ```
 
 ### Example:
 
 ```bash
-python main.py cleaned_vocabulary_words.json vocabulary_study_list.xlsx
+python main.py cleaned_vocabulary_words.json vocabulary_study_list.xlsx chinese
 ```
 
 This will:
 
 1. Read vocabulary from `cleaned_vocabulary_words.json`
-2. Translate each word to Chinese using Google Translate
+2. Translate each word to chosen language using Google Translate
 3. Get IPA pronunciation using `eng_to_ipa`
-4. Use `nltk` or `spaCy` to get part of speech
+4. Use `nltk` to get part of speech
 5. Use WordNet or Datamuse API to fetch similar or related words
 6. Export the result to `vocabulary_study_list.xlsx`
+
+---
+## ✅ Supported Languages
+
+You can enter the language name. Supported options:
+
+- chinese
+- chinese traditional
+- english
+- japanese
+- korean
+- french
+- german
+- spanish
+- italian
+- russian
 
 ---
 

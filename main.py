@@ -17,14 +17,39 @@ import sys
 # nltk.download('wordnet')
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
+SUPPORTED_LANGUAGES = {
+    "chinese": "zh-cn",
+    "chinese traditional": "zh-tw",
+    "english": "en",
+    "japanese": "ja",
+    "korean": "ko",
+    "french": "fr",
+    "german": "de",
+    "spanish": "es",
+    "italian": "it",
+    "russian": "ru"
+}
 
-
-if len(sys.argv) != 3:
-    print("wrong usage, the format should be : python main.py [input JSON dir] [output Excel dir]")
+if len(sys.argv) != 4:
+    print(" Usage: python main.py [input JSON] [output Excel] [language name]")
+    print(" Supported languages:")
+    for name, code in SUPPORTED_LANGUAGES.items():
+        print(f"  {name:<20}")
     sys.exit(1)
 
 input_path = sys.argv[1]
 output_path = sys.argv[2]
+language_name = sys.argv[3].strip().lower()
+
+if language_name not in SUPPORTED_LANGUAGES:
+    print(f" Unsupported language name: {language_name}")
+    print(" Supported names:")
+    print(", ".join(SUPPORTED_LANGUAGES.keys()))
+    sys.exit(1)
+
+target_lang = SUPPORTED_LANGUAGES[language_name]
+
+
 
 if not os.path.exists(input_path):
     print(f"input file does not exists: {input_path}")
@@ -63,6 +88,8 @@ def get_variants(word):
 
 
 async def main():
+    print(f"Processing {len(word_list)} words...")
+
     tagged_words = tagger.tag(word_list)
     records = []
 
@@ -72,7 +99,7 @@ async def main():
         except:
             pronunciation = ''
         try:
-            result = await translator.translate(word, src="en", dest="zh-cn")
+            result = await translator.translate(word, src="en", dest=target_lang)
             translation = result.text
         except:
             translation = ''
@@ -83,6 +110,7 @@ async def main():
     df = pd.DataFrame(records, columns=["English", "IPA", "Chinese", "POS", "Variants"])
     df.to_excel(output_path, index=False)
     print(f"saved to：{output_path}")
+    quit()
 
 if __name__ == "__main__":
     asyncio.run(main())
