@@ -6,17 +6,30 @@ import nltk
 from nltk.corpus import wordnet
 from nltk.tag import PerceptronTagger
 import pandas as pd
+import os
+import sys
 
-# 加载词汇 JSON
-with open("cleaned_vocabulary_words.json", "r", encoding="utf-8") as file:
+# 获取命令行参数
+if len(sys.argv) != 3:
+    print("❌ 用法: python main.py [输入JSON路径] [输出Excel路径]")
+    sys.exit(1)
+
+input_path = sys.argv[1]
+output_path = sys.argv[2]
+
+if not os.path.exists(input_path):
+    print(f"❌ 输入文件不存在: {input_path}")
+    sys.exit(1)
+
+with open("dataset/cleaned_vocabulary_words.json", "r", encoding="utf-8") as file:
     data = json.load(file)
     word_list = data["vocabulary_words"]
 
-# 初始化词性标注器和翻译器
+
 tagger = PerceptronTagger()
 translator = Translator()
 
-# 词性映射
+
 def get_wordnet_pos(tag):
     if tag.startswith('J'):
         return 'adj.'
@@ -29,7 +42,7 @@ def get_wordnet_pos(tag):
     else:
         return ''
 
-# 获取变种形式
+
 def get_variants(word):
     forms = set()
     for syn in wordnet.synsets(word):
@@ -39,7 +52,7 @@ def get_variants(word):
                 forms.add(name)
     return ', '.join(sorted(forms))
 
-# 异步主函数
+
 async def main():
     tagged_words = tagger.tag(word_list)
     records = []
@@ -58,10 +71,8 @@ async def main():
         variants = get_variants(word)
         records.append([word, pronunciation, translation, pos, variants])
 
-    # 导出 Excel
     df = pd.DataFrame(records, columns=["English", "IPA", "Chinese", "POS", "Variants"])
-    df.to_excel("vocabulary_study_list.xlsx", index=False)
-    print("✅ Saved to vocabulary_study_list.xlsx")
+    df.to_excel(output_path, index=False)
+    print(f"saved to：{output_path}")
 
-# 运行异步任务
 asyncio.run(main())

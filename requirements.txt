@@ -1,5 +1,4 @@
-eng-to-ipa
-googletrans
-nltk
-openpyxl
-pandas
+nltk==3.9.1
+pandas==2.2.3
+eng-to-ipa==0.0.2
+googletrans==4.0.2
