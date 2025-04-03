@@ -84,4 +84,5 @@ async def main():
     df.to_excel(output_path, index=False)
     print(f"saved to：{output_path}")
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
