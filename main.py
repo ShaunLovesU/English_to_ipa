@@ -9,19 +9,28 @@ import pandas as pd
 import os
 import sys
 
-# 获取命令行参数
+
+# '''
+# For install NLTK package
+# Only run for the first time running
+# '''
+# nltk.download('wordnet')
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
+
+
 if len(sys.argv) != 3:
-    print("❌ 用法: python main.py [输入JSON路径] [输出Excel路径]")
+    print("wrong usage, the format should be : python main.py [input JSON dir] [output Excel dir]")
     sys.exit(1)
 
 input_path = sys.argv[1]
 output_path = sys.argv[2]
 
 if not os.path.exists(input_path):
-    print(f"❌ 输入文件不存在: {input_path}")
+    print(f"input file does not exists: {input_path}")
     sys.exit(1)
 
-with open("dataset/cleaned_vocabulary_words.json", "r", encoding="utf-8") as file:
+with open(input_path, "r", encoding="utf-8") as file:
     data = json.load(file)
     word_list = data["vocabulary_words"]
 
